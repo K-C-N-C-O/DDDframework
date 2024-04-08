@@ -29,7 +29,7 @@ public class StrategyArmoryTest {
     }
     @Test
     public void test_getRandomAwardId(){
-        log.info("测试结果：{}-奖品ID值",strategyDispatch.getRandomAwardId(String.valueOf(100001L)));
+        log.info("测试结果：{}-奖品ID值",strategyDispatch.getRandomAwardId(100001L));
 
     }
 

@@ -60,7 +60,7 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
-    public void storeStrategyAwardSearchRateTables(String key, Integer rateRange, HashMap<Integer, Integer> shuffleStrategyAwardSearchRateTables) {
+    public void storeStrategyAwardSearchRateTables(String key, BigDecimal rateRange, HashMap<Integer, Integer> shuffleStrategyAwardSearchRateTables) {
         //1.存储抽奖策略范围值，如10000，用于生成10000以内的随机数
         redisService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY+key,rateRange.intValue());
         //2.存储概率查找表
@@ -116,5 +116,14 @@ public class StrategyRepository implements IStrategyRepository {
                       .ruleDesc(strategyRuleRes.getRuleDesc())
                       .build();
 
+    }
+
+    @Override
+    public String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel) {
+        StrategyRule strategyRule = new StrategyRule();
+        strategyRule.setStrategyId(strategyId);
+        strategyRule.setAwardId(awardId);
+        strategyRule.setRuleModel(ruleModel);
+        return strategyRuleDao.queryStrategyRuleValue(strategyRule);
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public interface IStrategyRepository {
     List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId);
 
-    void storeStrategyAwardSearchRateTables(String key, Integer rateRange, HashMap<Integer, Integer> shuffleStrategyAwardSearchRateTables);
+    void storeStrategyAwardSearchRateTables(String key, BigDecimal rateRange, HashMap<Integer, Integer> shuffleStrategyAwardSearchRateTables);
 
     int getRateRange(Long strategyId);
 
@@ -28,4 +28,6 @@ public interface IStrategyRepository {
     StrategyEntity queryStrategyEntityByStrategyId(Long strategyId);
 
     StrategyRuleEntity queryStrategyRule(Long strategyId, String ruleModel);
+
+    String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel);
 }

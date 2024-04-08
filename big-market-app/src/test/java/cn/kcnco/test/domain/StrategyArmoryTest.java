@@ -1,7 +1,9 @@
 package cn.kcnco.test.domain;
 
 import cn.kcnco.domain.strategy.service.armory.IStrategyArmory;
+import cn.kcnco.domain.strategy.service.armory.IStrategyDispatch;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,18 +17,27 @@ import javax.annotation.Resource;
 public class StrategyArmoryTest {
 
     @Resource
-    private IStrategyArmory strategyArmory;
+    private IStrategyDispatch strategyDispatch;
+    @Resource
+    private  IStrategyArmory strategyArmory;
 
-    @Test
+    @Before
     public  void test_strategyArmory(){
-        strategyArmory.assembleLotteryStrategy(10002L);
+        boolean success=strategyArmory.assembleLotteryStrategy(100001L);
+        log.info("测试结果;{}",success);
 
     }
     @Test
-    public void test_getAssembleRandomVal(){
-        log.info("测试结果：{}-奖品ID值",strategyArmory.getRandomAwardId(10002L));
-        log.info("测试结果：{}-奖品ID值",strategyArmory.getRandomAwardId(10002L));
-        log.info("测试结果：{}-奖品ID值",strategyArmory.getRandomAwardId(10002L));
+    public void test_getRandomAwardId(){
+        log.info("测试结果：{}-奖品ID值",strategyDispatch.getRandomAwardId(String.valueOf(100001L)));
+
+    }
+
+    @Test
+    public void test_getRandomAwardId_ruleWeightValue(){
+        log.info("测试结果：{}-4000策略配置",strategyDispatch.getRandomAwardId(100001L,"4000:102,103,104,105"));
+        log.info("测试结果：{}-5000策略配置",strategyDispatch.getRandomAwardId(100001L,"5000:102,103,104,105,106,107"));
+        log.info("测试结果：{}-6000策略配置",strategyDispatch.getRandomAwardId(100001L,"6000:102,103,104,105,106,107,108,109"));
     }
 
 }

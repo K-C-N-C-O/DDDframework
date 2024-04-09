@@ -3,6 +3,7 @@ package cn.kcnco.infrastructure.persistent.repository;
 import cn.kcnco.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyRuleEntity;
+import cn.kcnco.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import cn.kcnco.domain.strategy.repository.IStrategyRepository;
 import cn.kcnco.infrastructure.persistent.dao.IStrategyAwardDao;
 import cn.kcnco.infrastructure.persistent.dao.IStrategyDao;
@@ -90,6 +91,7 @@ public class StrategyRepository implements IStrategyRepository {
         if (strategyEntity != null) return strategyEntity;
         //从库中读取数据
         Strategy strategy = strategyDao.queryStrategyByStrategyId(strategyId);
+        if (null == strategy) return StrategyEntity.builder().build();
         strategyEntity= StrategyEntity.builder()
                 .strategyId(strategy.getStrategyId())
                 .strategyDesc(strategy.getStrategyDesc())
@@ -125,5 +127,14 @@ public class StrategyRepository implements IStrategyRepository {
         strategyRule.setAwardId(awardId);
         strategyRule.setRuleModel(ruleModel);
         return strategyRuleDao.queryStrategyRuleValue(strategyRule);
+    }
+
+    @Override
+    public StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId) {
+        StrategyAward strategyAward=new StrategyAward();
+        strategyAward.setStrategyId(strategyId);
+        strategyAward.setAwardId(awardId);
+        String ruleModels =strategyAwardDao.queryStrategyAwardRuleModels(strategyAward);
+        return StrategyAwardRuleModelVO.builder().ruleModels(ruleModels).build();
     }
 }

@@ -1,8 +1,8 @@
-package cn.kcnco.domain.strategy.service.rule.factory;
+package cn.kcnco.domain.strategy.service.rule.filter.factory;
 
 import cn.kcnco.domain.strategy.model.entity.RuleActionEntity;
 import cn.kcnco.domain.strategy.service.annotation.LogicStrategy;
-import cn.kcnco.domain.strategy.service.rule.ILogicFilter;
+import cn.kcnco.domain.strategy.service.rule.filter.ILogicFilter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.core.annotation.AnnotationUtils;

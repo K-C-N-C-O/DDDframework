@@ -1,4 +1,4 @@
-package cn.kcnco.domain.strategy.service.rule;
+package cn.kcnco.domain.strategy.service.rule.filter;
 
 
 import cn.kcnco.domain.strategy.model.entity.RuleActionEntity;

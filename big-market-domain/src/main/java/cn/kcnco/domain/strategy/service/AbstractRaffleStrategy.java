@@ -5,16 +5,9 @@ package cn.kcnco.domain.strategy.service;
 
 import cn.kcnco.domain.strategy.model.entity.RaffleAwardEntity;
 import cn.kcnco.domain.strategy.model.entity.RaffleFactorEntity;
-import cn.kcnco.domain.strategy.model.entity.RuleActionEntity;
-import cn.kcnco.domain.strategy.model.entity.StrategyEntity;
-import cn.kcnco.domain.strategy.model.vo.RuleLogicCheckTypeVO;
-import cn.kcnco.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import cn.kcnco.domain.strategy.repository.IStrategyRepository;
-import cn.kcnco.domain.strategy.service.IRaffleStrategy;
 import cn.kcnco.domain.strategy.service.armory.IStrategyDispatch;
-import cn.kcnco.domain.strategy.service.rule.chain.ILogicChain;
 import cn.kcnco.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
-import cn.kcnco.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import cn.kcnco.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import cn.kcnco.types.enums.ResponseCode;
 import cn.kcnco.types.exception.AppException;
@@ -22,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
-public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
+public abstract class AbstractRaffleStrategy implements IRaffleStrategy,IRaffleStock{
 
     // 策略仓储服务 -> domain层像一个大厨，仓储层提供米面粮油
     protected IStrategyRepository repository;

@@ -5,6 +5,7 @@ import cn.kcnco.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyRuleEntity;
 import cn.kcnco.domain.strategy.repository.IStrategyRepository;
+import cn.kcnco.types.common.Constants;
 import cn.kcnco.types.enums.ResponseCode;
 import cn.kcnco.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,19 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         //1.查询策略配置
         List<StrategyAwardEntity> strategyAwardEntities=repository.queryStrategyAwardList(strategyId);
         assembleLotteryStrategy(String.valueOf(strategyId),strategyAwardEntities);
+        //2.缓存奖品库存,用于decr扣减库存使用
+        for(StrategyAwardEntity strategyAward:strategyAwardEntities){
+            Integer awardId=strategyAward.getAwardId();
+            Integer awardCount=strategyAward.getAwardCount();
+            cacheStrategyAwardCount(strategyId,awardId,awardCount);
+        }
 
-        //2.权重配置策略 -适用于rule_weight 权重配置规则
+
+
+        //3.1默认装配配置[全量抽奖概率]
+        assembleLotteryStrategy(String.valueOf(strategyId),strategyAwardEntities);
+
+        //3.2 权重配置策略 -适用于rule_weight 权重配置规则
         StrategyEntity  strategyEntity=repository.queryStrategyEntityByStrategyId(strategyId);
         String ruleWeight=strategyEntity.getRuleWeight();
         if(ruleWeight==null) return true;
@@ -51,6 +63,12 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         }
 
         return true;
+    }
+
+    private void cacheStrategyAwardCount(Long strategyId, Integer awardId, Integer awardCount) {
+        String cacheKey=Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY+strategyId+Constants.UNDERLINE+awardId;
+        repository.cacheStrategyAwardCount(cacheKey,awardCount);
+
     }
 
     private void assembleLotteryStrategy(String key,List<StrategyAwardEntity> strategyAwardEntities){
@@ -106,5 +124,11 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         int rateRange = repository.getRateRange(key);
         // 通过生成的随机值，获取概率值奖品查找表的结果
         return repository.getStrategyAwardAssemble(key, new SecureRandom().nextInt(rateRange));
+    }
+
+    @Override
+    public Boolean subtractionAwardStock(Long strategyId, Integer awardId) {
+        String cacheKey=Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY+strategyId+Constants.UNDERLINE+awardId;
+        return repository.subtractionAwardStock(cacheKey);
     }
 }

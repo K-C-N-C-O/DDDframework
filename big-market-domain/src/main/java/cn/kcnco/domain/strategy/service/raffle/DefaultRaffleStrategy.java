@@ -3,6 +3,7 @@ package cn.kcnco.domain.strategy.service.raffle;
 
 import cn.kcnco.domain.strategy.model.vo.RuleTreeVO;
 import cn.kcnco.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import cn.kcnco.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import cn.kcnco.domain.strategy.repository.IStrategyRepository;
 import cn.kcnco.domain.strategy.service.AbstractRaffleStrategy;
 import cn.kcnco.domain.strategy.service.armory.IStrategyDispatch;
@@ -40,5 +41,15 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
         }
         IDecisionTreeEngine treeEngine = defaultTreeFactory.openLogicTree(ruleTreeVO);
         return treeEngine.process(userId, strategyId, awardId);
+    }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        repository.updateStrategyAwardStock(strategyId, awardId);
     }
 }

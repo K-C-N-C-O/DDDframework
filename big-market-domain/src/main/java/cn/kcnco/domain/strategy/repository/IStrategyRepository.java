@@ -5,6 +5,7 @@ import cn.kcnco.domain.strategy.model.entity.StrategyEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyRuleEntity;
 import cn.kcnco.domain.strategy.model.vo.RuleTreeVO;
 import cn.kcnco.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import cn.kcnco.domain.strategy.model.vo.StrategyAwardStockKeyVO;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -38,4 +39,14 @@ public interface IStrategyRepository {
     StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId);
 
     RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
+
+    void cacheStrategyAwardCount(String cacheKey, Integer awardCount);
+
+    Boolean subtractionAwardStock(String cacheKey);
+
+    void awardStockConsumeSendQueue(StrategyAwardStockKeyVO build);
+
+    StrategyAwardStockKeyVO takeQueueValue();
+
+    void updateStrategyAwardStock(Long strategyId, Integer awardId);
 }

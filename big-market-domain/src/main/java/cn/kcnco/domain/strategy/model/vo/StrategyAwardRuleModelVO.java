@@ -2,7 +2,7 @@ package cn.kcnco.domain.strategy.model.vo;
 
 //抽奖策略对应值对象，没有唯一ID，仅限于从数据库查询对象
 
-import cn.kcnco.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
+
 import cn.kcnco.types.common.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,15 +20,5 @@ public class StrategyAwardRuleModelVO {
 
     private String ruleModels;
 
-    public String[] raffleCenterRuleModelList(){
-        List<String> ruleModelList=new ArrayList<>();
-        String[] ruleModelValues=ruleModels.split(Constants.SPLIT);
-        for(String ruleModelValue:ruleModelValues){
-            if(DefaultLogicFactory.LogicModel.isCenter(ruleModelValue)){
-                ruleModelList.add(ruleModelValue);
 
-            }
-        }
-        return ruleModelList.toArray(new String[0]);
-    }
 }

@@ -3,6 +3,7 @@ package cn.kcnco.domain.strategy.repository;
 import cn.kcnco.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyEntity;
 import cn.kcnco.domain.strategy.model.entity.StrategyRuleEntity;
+import cn.kcnco.domain.strategy.model.vo.RuleTreeVO;
 import cn.kcnco.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import org.springframework.stereotype.Repository;
 
@@ -35,4 +36,6 @@ public interface IStrategyRepository {
     String queryStrategyRuleValue(Long strategyId, String ruleModel);
 
     StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId);
+
+    RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
 }

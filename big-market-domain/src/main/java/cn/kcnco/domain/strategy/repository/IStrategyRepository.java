@@ -49,4 +49,7 @@ public interface IStrategyRepository {
     StrategyAwardStockKeyVO takeQueueValue();
 
     void updateStrategyAwardStock(Long strategyId, Integer awardId);
+
+    //根据策略ID，奖品ID唯一值组合，查询奖品信息
+    StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId);
 }
